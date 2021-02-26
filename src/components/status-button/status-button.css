@@ -1,34 +1,29 @@
 .StatusButton {
     border: 1px solid white;
     height: 76px;
-    text-transform: capitalize;
+    text-transform: uppercase;
     width: 312px;
-    background-color:var(--color-bg-secondary);
-
+    background-color: var(--color-bg-secondary);
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
 }
 
-.available{
+.available {
     background: var(--color-available);
 }
 
-.busy{
+.busy {
     background: var(--color-busy);
-}
-
-.outerCircle {
-    background: #97C8EB;
-    border-radius: 50%;
-    width: 80px;
-    height: 76px;
-    display: inline-block;
 }
 
 .innerCircle {
     border-radius: 50%;
-    width: 64px;
+    border: 6px solid #1C6EA4;
     height: 60px;
-    display: inline-block;
+    position: absolute;
+    right: 0px;
+    width: 64px;
+    z-index: 1;
 }
