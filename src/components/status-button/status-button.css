@@ -1,4 +1,34 @@
 .StatusButton {
     border: 1px solid white;
-    background-color: var(--color-available);
+    height: 76px;
+    text-transform: capitalize;
+    width: 312px;
+    background-color:var(--color-bg-secondary);
+
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.available{
+    background: var(--color-available);
+}
+
+.busy{
+    background: var(--color-busy);
+}
+
+.outerCircle {
+    background: #97C8EB;
+    border-radius: 50%;
+    width: 80px;
+    height: 76px;
+    display: inline-block;
+}
+
+.innerCircle {
+    border-radius: 50%;
+    width: 64px;
+    height: 60px;
+    display: inline-block;
 }

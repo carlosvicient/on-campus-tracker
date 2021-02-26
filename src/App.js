@@ -14,7 +14,7 @@ class App extends Component {
       <div className="App">
         <BigButton />
         <BigSwitch />
-        <StatusButton />
+        <StatusButton available={false}/>
         <StatusImage />
         <UserPreview />
         <UserList />
