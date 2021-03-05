@@ -12,6 +12,9 @@ import USERS from './users';
 import Home from './components/home/Home';
 import UserList from './components/user-list/user-list';
 import NotFound from './components/NotFound';
+import { AuthProvider } from './helpers/Auth';
+import Login from './components/login/login';
+
 
 class App extends Component {
   constructor(props) {
@@ -37,21 +40,29 @@ class App extends Component {
                   <li>
                     <Link to="/dashboard">Dashboard</Link>
                   </li>
+                  <li>
+                    <Link to="/login">login</Link>
+                  </li>
                 </ul>
               </nav>
             </header>
             <main>
-              <Switch>
-                <Route path="/dashboard">
-                  <UserList users={this.state.users} />
-                </Route>
-                <Route exact path="/">
-                  <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
-                </Route>
-                <Route>
-                  <NotFound />
-                </Route>
-              </Switch>
+              <AuthProvider>
+                <Switch>
+                  <Route path="/dashboard">
+                    <UserList users={this.state.users} />
+                  </Route>
+                  <Route path="/login">
+                    <Login />
+                  </Route>
+                  <Route exact path="/">
+                    <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+                  </Route>
+                  <Route>
+                    <NotFound />
+                  </Route>
+                </Switch>
+              </AuthProvider>
             </main>
           </div>
         </Router>
