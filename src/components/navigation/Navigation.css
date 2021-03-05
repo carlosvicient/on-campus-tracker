@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #052426;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar span {
+    margin-left: 1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+nav > * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 1em;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}

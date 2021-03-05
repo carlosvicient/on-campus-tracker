@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-
-import BigButton from './components/big-button/big-button';
-import BigSwitch from './components/big-switch/big-switch';
-import StatusButton from './components/status-button/status-button';
-import StatusImage from './components/status-image/status-image';
+import Home from './components/home/Home';
+import Navigation from './components/navigation/Navigation'
+import NotFound from './components/notfound/NotFound';
 import UserList from './components/user-list/user-list';
-import UserPreview from './components/user-preview/user-preview';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
 
 //only for testing purposes
 const busyHome = {
@@ -40,34 +42,68 @@ class App extends Component {
     super(props);
     // posible values "available/busy and on-campus/home-office"
     this.state = {
-      myUser: busyHome
+      myUser: { ...users[0] },
+      users: users
     }
   }
+
   render() {
-    const available = this.state.myUser.status === 'available';
-    const onCampus = this.state.myUser.place === 'on-campus';
-    const config = {textWhenChecked: 'on-campus', textWhenUnchecked:'Home office'};
     return (
-      <div className="App">
-        <p>This is the BigButton</p>
-        <BigButton text={this.state.myUser.place} enabled={available}/>
-        
-        <p>This is the BigSwitch</p>
-        <BigSwitch config={config} checked={onCampus}/>
-
-        <p>This is the StatusButton</p>
-        <StatusButton available={available} />
-
-        <p>This is the StatusImage</p>
-        <StatusImage available={available} onCampus={onCampus} />
-
-        <p>This is the UserPreview</p>
-        <UserPreview user={this.state.myUser}/>
-
-        <p>This is the UserList</p>
-        <UserList users={users}/>
-      </div>
+        <Router>
+            <div className="App">
+                <Navigation />
+                <main>
+                    <Switch>
+                        <Route exact path="/dashboard">
+                            <UserList users={this.state.users} />
+                        </Route>
+                        <Route exact path="/">
+                            <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+                        </Route>
+                        <Route path="*">
+                            <NotFound />
+                        </Route>
+                    </Switch>
+                </main>
+            </div>
+        </Router>
     );
+  }
+
+  updateUserPlace = (onCampus) => {
+    const place = onCampus ? 'on-campus' : 'home-office';
+    this.setState((state) => {
+
+      let newUserList = [...this.state.users];
+      //myUser is always in pos[0] in the demo. However, in real app this will not be true.
+      newUserList[0].place = place;
+
+      return {
+        myUser: {
+          ...state.myUser,
+          place
+        },
+        users: newUserList
+      }
+    });
+  }
+
+  updateUserStatus = (available) => {
+    const status = available ? 'available' : 'busy';
+    this.setState((state) => {
+
+      let newUserList = [...this.state.users];
+      //myUser is always in pos[0] in the demo. However, in real app this will not be true.
+      newUserList[0].status = status;
+
+      return {
+        myUser: {
+          ...state.myUser,
+          status
+        },
+        users: newUserList
+      }
+    });
   }
 }
 
