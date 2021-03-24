@@ -1,7 +1,7 @@
 
 //only for testing purposes
 const busyHome = {
-    name: 'JaneBuHo',
+    name: 'MyUser',
     status: 'busy',
     place: 'home-office'
   }

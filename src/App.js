@@ -5,13 +5,15 @@ import {
   Route,
   Link
 } from "react-router-dom";
-
 import './App.css';
+
 import USERS from './users';
 
 import Home from './components/home/Home';
 import UserList from './components/user-list/user-list';
 import NotFound from './components/NotFound';
+import About from './components/about/About';
+import PrivateRoute from './routes/PrivateRoute';
 import { AuthProvider } from './helpers/Auth';
 import Login from './components/login/login';
 
@@ -52,11 +54,14 @@ class App extends Component {
                   <Route path="/dashboard">
                     <UserList users={this.state.users} />
                   </Route>
+                  <PrivateRoute exact path="/user">
+                    <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+                  </PrivateRoute>
                   <Route path="/login">
                     <Login />
                   </Route>
-                  <Route exact path="/">
-                    <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+                  <Route path="/">
+                    <About />
                   </Route>
                   <Route>
                     <NotFound />
