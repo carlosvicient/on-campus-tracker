@@ -1,27 +1,74 @@
 //Code from https://codesandbox.io/s/q9m26noky6?file=/src/helpers/AuthContext.js:0-638 
-import React from "react";
+import React from 'react';
+import { login } from '../api/users';
+import { getToken, setToken, getUser, setUser, clearLocalStorage } from './storage';
+const INITIAL_STATE = { isAuth: false, token: null, user: null };
 
 const AuthContext = React.createContext();
 
 class AuthProvider extends React.Component {
-  state = { isAuth: false };
+  state = { ...INITIAL_STATE };
 
-  login = (userData) => {
-      //userData is an object with the name and password. AuthProvider can query... (email, password)
-    setTimeout(() => this.setState({ isAuth: true }), 1000);
+  componentDidMount() {
+    const token = getToken();
+    const user = getUser();
+
+    if (token && user) {
+      this.setState({ isAuth: true, token, user });
+    }
+  }
+
+  login = async (userData) => {
+    const { email, password } = userData;
+    try {
+      const response = await login(email, password);
+      const { token, user } = response.data;
+      this.setState({ isAuth: true, token, user }, () => {
+        //callback to store token
+        setToken(token)
+        setUser(user);
+      });
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   };
 
   logout = () => {
-    this.setState({ isAuth: false });
+    this.setState({ ...INITIAL_STATE }, () => {
+      clearLocalStorage();
+    });
   };
+
+  generateHeaders = () => {
+    const response = {};
+    //we read the token from memory and if it is not yet defined, we try with the stored token
+    const token = this.state.token || getToken();
+
+    if (token) {
+      response.headers = {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    return response;
+  }
+
+  isAuthFunc = () => {
+    //if isAuth is false but localStorage has token, then, we return true.
+    return this.state.isAuth || getToken() != null;
+  }
 
   render() {
     return (
       <AuthContext.Provider
         value={{
           isAuth: this.state.isAuth,
+          isAuthFunc: this.isAuthFunc,
+          token: this.state.token,
+          user: this.state.user,
           login: this.login,
-          logout: this.logout
+          logout: this.logout,
+          generateHeaders: this.generateHeaders
         }}
       >
         {this.props.children}
@@ -31,5 +78,4 @@ class AuthProvider extends React.Component {
 }
 
 const AuthConsumer = AuthContext.Consumer;
-
 export { AuthContext, AuthProvider, AuthConsumer };

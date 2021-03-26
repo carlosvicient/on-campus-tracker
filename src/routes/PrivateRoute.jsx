@@ -1,22 +1,23 @@
 import { Route, Redirect } from "react-router-dom";
-import {isLoggedIn} from '../utils/isAuth';
-  
+import { AuthConsumer } from '../helpers/Auth';
+
 const PrivateRoute = ({ children, ...rest }) => (
-    <Route
-      {...rest}
-      render={({ location }) =>
-      isLoggedIn() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
+  <AuthConsumer>
+    {({ isAuthFunc }) => (
+      <Route {...rest} render={({ location }) =>
+      isAuthFunc() ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: location }
+          }}
+        />
+      )}
     />
+    )}
+  </AuthConsumer>
 );
 
 export default PrivateRoute;

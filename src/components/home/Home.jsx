@@ -22,12 +22,10 @@ class Home extends Component {
     }
 
     updateUserPlace = (onCampus) => {
-        console.log('updateUserPlace: ', onCampus );
         this.props.onChangePlace(onCampus);
     }
 
     updateUserStatus = (available) => {
-        console.log('updateUserStatus: ', available );
         this.props.onChangeStatus(available);
     }
 }
