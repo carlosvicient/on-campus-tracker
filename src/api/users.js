@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const login = (email, password) => {
-    return axios.post('/login', { email, password });
+    return axios.post('/auth/signin', { email, password });
 };
 
 const fetchUsers = () => {

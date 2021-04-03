@@ -68,3 +68,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Available branches and versions
+
+- `feature/fullstackv1`: this version is connected to a backend (available here - on-campus-tracker-backend...). The JWT is persisted in the localStorage (not secure).
+
+- `feature/fullstackv2`: this version is connected to a backend (available here - on-campus-tracker-backend...). The JWT is only kept in memory and httl only cookies are used to store a refreshToken.
+
